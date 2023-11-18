@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../theme/typography.dart';
 
 class BottomDialog extends StatelessWidget {
-  const BottomDialog({super.key});
+  const BottomDialog({super.key, required this.onPressed, required this.controller});
+
+  final Function onPressed;
+  final Rx<TextEditingController> controller;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +38,10 @@ class BottomDialog extends StatelessWidget {
               const SizedBox(height: 10),
               TextField(
                 textCapitalization: TextCapitalization.sentences,
+                controller: controller.value,
                 autofocus: true,
                 style: AppTypography.subtitle1,
+                onSubmitted: (s) => onPressed(),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 10,
@@ -75,18 +81,21 @@ class BottomDialog extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Center(
-                          child: Text(
-                            "Save",
-                            style: AppTypography.subtitle2.copyWith(
-                              color: Theme.of(context).colorScheme.onSecondary,
+                    child: InkWell(
+                      onTap: () => onPressed(),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Center(
+                            child: Text(
+                              "Save",
+                              style: AppTypography.subtitle2.copyWith(
+                                color: Theme.of(context).colorScheme.onSecondary,
+                              ),
                             ),
                           ),
                         ),

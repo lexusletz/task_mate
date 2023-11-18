@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
+import 'package:task_mate/data/models/task.dart';
 
 import '../../screens/details_screen.dart';
 import '../../theme/typography.dart';
@@ -7,7 +8,7 @@ import '../../theme/typography.dart';
 class TaskTile extends StatelessWidget {
   const TaskTile({super.key, required this.task});
 
-  final String task;
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class TaskTile extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => DetailsScreen(title: task),
+            builder: (context) => DetailsScreen(title: task.name),
           ),
         );
       },
@@ -43,7 +44,7 @@ class TaskTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 Text(
-                  task,
+                  task.name,
                   style: AppTypography.subtitle2,
                 ),
               ],

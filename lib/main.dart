@@ -1,9 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import 'ui/constants/colors.dart';
-import 'ui/screens/home_screen.dart';
+import 'data/services/auth_service.dart';
+import 'data/services/firestore_service.dart';
+import 'firebase_options.dart';
+import 'presentation/constants/colors.dart';
+import 'presentation/controllers/welcome_controller.dart';
+import 'presentation/routes/app_routes.dart';
+import 'presentation/routes/routes_names.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Get.lazyPut(() => WelcomeController());
+  Get.lazyPut(() => AuthService());
+  Get.lazyPut(() => FirestoreService());
   runApp(const MainApp());
 }
 
@@ -12,10 +24,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      getPages: AppRoutes.routes,
       theme: AppTheme.lightTheme,
-      home: const HomeScreen(),
+      initialRoute: RoutesNames.WELCOME_ROUTE,
     );
   }
 }

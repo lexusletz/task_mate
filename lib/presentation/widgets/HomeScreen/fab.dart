@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../theme/typography.dart';
 import 'bottom_dialog.dart';
 
 class Fab extends StatelessWidget {
-  const Fab({super.key});
+  const Fab({
+    super.key,
+    required this.onPressed,
+    required this.controller,
+  });
+
+  final Function onPressed;
+  final Rx<TextEditingController> controller;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +21,10 @@ class Fab extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return const BottomDialog();
+            return BottomDialog(
+              onPressed: onPressed,
+              controller: controller,
+            );
           },
         );
       },

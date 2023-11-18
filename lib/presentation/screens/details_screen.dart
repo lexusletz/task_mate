@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:task_mate/ui/theme/typography.dart';
-import 'package:task_mate/ui/widgets/DetailsScreen/details_tile.dart';
-import 'package:task_mate/ui/widgets/HomeScreen/title_tile.dart';
+import 'package:task_mate/presentation/theme/typography.dart';
+import 'package:task_mate/presentation/widgets/DetailsScreen/details_tile.dart';
+import 'package:task_mate/presentation/widgets/HomeScreen/title_tile.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.title});

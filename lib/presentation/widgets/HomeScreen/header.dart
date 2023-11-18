@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import '../../theme/typography.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  const Header({
+    super.key,
+    required this.username,
+    required this.photoUrl,
+  });
+
+  final String username;
+  final String photoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,7 @@ class Header extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Welcome Back, Jordy 👋",
+              "Welcome Back, $username 👋",
               style: AppTypography.headline1,
             ),
             Text(
@@ -34,8 +41,8 @@ class Header extends StatelessWidget {
             CircleAvatar(
               radius: 20,
               backgroundColor: Theme.of(context).colorScheme.primary,
-              backgroundImage: const NetworkImage(
-                "https://xsgames.co/randomusers/avatar.php?g=male",
+              backgroundImage: NetworkImage(
+                photoUrl,
               ),
             ),
           ],
