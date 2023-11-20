@@ -21,7 +21,7 @@ class Header extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Welcome Back, $username 👋",
+              "Welcome Back,\n$username 👋",
               style: AppTypography.headline1,
             ),
             Text(
