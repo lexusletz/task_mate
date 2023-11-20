@@ -10,13 +10,15 @@ class FirestoreService extends GetxService {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   CollectionReference tasks = FirebaseFirestore.instance.collection('tasks');
 
+  // TODO: Add error handling here
+  // FIXME: The snackbar doesn't appear 'cause the function Get.back() is called
   // Users
   Future<void> addUser(AppUser user) async {
     try {
       await users
           .doc(user.uid)
           .set(user.toJson())
-          .then((value) => print("User added"))
+          .then((value) => Get.snackbar("User created successfully", "OK"))
           .catchError((error) => print(error));
     } catch (e) {
       print(e);
@@ -26,10 +28,7 @@ class FirestoreService extends GetxService {
   // Tasks
   Future<void> getTasks() async {
     try {
-      await users
-          .get()
-          .then((value) => print("Tasks fetched"))
-          .catchError((error) => print(error));
+      await users.get().catchError((error) => print(error));
     } catch (e) {
       print(e);
     }
@@ -42,21 +41,21 @@ class FirestoreService extends GetxService {
           .collection('tasks')
           .doc(task.id)
           .set(task.toJson())
-          .then((value) => print("Task added"))
+          .then((value) => Get.snackbar("Task created successfully", "OK"))
           .catchError((error) => print(error));
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> updateTask(Task task) async {
+  Future<void> completeTask(Task task) async {
     try {
       await users
-          .doc(task.id)
+          .doc(task.userId)
           .collection('tasks')
           .doc(task.id)
           .update(task.toJson())
-          .then((value) => print("Task updated"))
+          .then((value) => Get.snackbar("Task completed successfully", "OK"))
           .catchError((error) => print(error));
     } catch (e) {
       print(e);
@@ -66,11 +65,11 @@ class FirestoreService extends GetxService {
   Future<void> deleteTask(Task task) async {
     try {
       await users
-          .doc(task.id)
+          .doc(task.userId)
           .collection('tasks')
           .doc(task.id)
           .delete()
-          .then((value) => print("Task deleted"))
+          .then((value) => Get.snackbar("Task deleted successfully", "OK"))
           .catchError((error) => print(error));
     } catch (e) {
       print(e);
