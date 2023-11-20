@@ -6,9 +6,16 @@ import '../../screens/details_screen.dart';
 import '../../theme/typography.dart';
 
 class TaskTile extends StatelessWidget {
-  const TaskTile({super.key, required this.task});
+  const TaskTile({
+    super.key,
+    required this.task,
+    required this.onLongPress,
+    required this.onCheckboxTapped,
+  });
 
   final Task task;
+  final void Function(Task) onLongPress;
+  final Function(bool?) onCheckboxTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +26,9 @@ class TaskTile extends StatelessWidget {
             builder: (context) => DetailsScreen(title: task.name),
           ),
         );
+      },
+      onLongPress: () {
+        onLongPress(task);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -33,7 +43,10 @@ class TaskTile extends StatelessWidget {
             Row(
               children: [
                 RoundCheckBox(
-                  onTap: (d) {},
+                  onTap: (d) {
+                    task.updateTask(d ?? false);
+                    onCheckboxTapped(d);
+                  },
                   size: 25,
                   checkedColor: Theme.of(context).colorScheme.primary,
                   checkedWidget: Icon(
@@ -41,6 +54,7 @@ class TaskTile extends StatelessWidget {
                     size: 20,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
+                  isChecked: task.isCompleted,
                 ),
                 const SizedBox(width: 20),
                 Text(
@@ -49,19 +63,10 @@ class TaskTile extends StatelessWidget {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Text(
-                  "10:00 AM",
-                  style: AppTypography.caption,
-                ),
-                Image.asset(
-                  "assets/icons/more.png",
-                  fit: BoxFit.cover,
-                  width: 25,
-                )
-              ],
-            )
+            Text(
+              "10:00 AM",
+              style: AppTypography.caption,
+            ),
           ],
         ),
       ),
