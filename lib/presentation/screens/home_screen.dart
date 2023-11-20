@@ -46,7 +46,7 @@ class HomeScreen extends GetView<HomeController> {
               const TitleTile(title: "Task for today"),
 
               StreamBuilder<QuerySnapshot>(
-                stream: controller.getAllTasks(),
+                stream: controller.getTodayTasks(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return const Center(
@@ -67,17 +67,28 @@ class HomeScreen extends GetView<HomeController> {
                               Map<String, dynamic> data =
                                   document.data()! as Map<String, dynamic>;
                               Task task = Task.fromJson(data);
-                              return TaskTile(task: task);
+                              return TaskTile(
+                                task: task,
+                                onLongPress: (task) =>
+                                    controller.deleteTask(task),
+                                onCheckboxTapped: (d) =>
+                                    controller.completeTask(task),
+                              );
                             },
                           ).toList(),
                         )
-                      : const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Center(child: CircularProgressIndicator()),
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Center(
+                            child: Text(
+                              "No tasks to do today",
+                              style: AppTypography.bodyText1,
+                            ),
+                          ),
                         );
                 },
               ),
-              // Task to do tomorrow
+              // Tasks to do tomorrow
 
               const TitleTile(title: "Completed"),
 
@@ -105,7 +116,13 @@ class HomeScreen extends GetView<HomeController> {
                                 Map<String, dynamic> data =
                                     document.data()! as Map<String, dynamic>;
                                 Task task = Task.fromJson(data);
-                                return TaskTile(task: task);
+                                return TaskTile(
+                                  task: task,
+                                  onLongPress: (task) =>
+                                      controller.deleteTask(task),
+                                  onCheckboxTapped: (d) =>
+                                      controller.completeTask(task),
+                                );
                               },
                             ).toList(),
                           ),
