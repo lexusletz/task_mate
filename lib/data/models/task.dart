@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Task {
   final String id;
   final String userId;
   final String name;
-  final bool isCompleted;
+  bool isCompleted;
   final DateTime date;
 
   Task({
@@ -13,12 +15,26 @@ class Task {
     required this.date,
   });
 
-  factory Task.fromJson(Map<String, dynamic> json, {required DateTime date}) => Task(
+  void updateTask(bool isComp) {
+    isCompleted = isComp;
+  }
+
+  factory Task.fromFirestore(DocumentSnapshot<Map<String, dynamic>> document) {
+    return Task(
+      id: document.id,
+      userId: document['userId'],
+      name: document['name'],
+      isCompleted: document['isCompleted'],
+      date: (document['date'] as Timestamp).toDate(),
+    );
+  }
+
+  factory Task.fromJson(Map<String, dynamic> json) => Task(
         id: json['id'],
         userId: json['userId'],
         name: json['name'],
         isCompleted: json['isCompleted'],
-        date: date,
+        date: (json["date"] as Timestamp).toDate(),
       );
 
   Map<String, dynamic> toJson() {
