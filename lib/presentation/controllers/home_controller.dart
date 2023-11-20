@@ -46,11 +46,11 @@ class HomeController extends GetxController {
 
   Stream<QuerySnapshot> getCompletedTasks() {
     return FirebaseFirestore.instance
-       .collection('users')
-       .doc(uid)
-       .collection('tasks')
-       .where("isCompleted", isEqualTo: true)
-       .snapshots();
+        .collection('users')
+        .doc(uid)
+        .collection('tasks')
+        .where("isCompleted", isEqualTo: true)
+        .snapshots();
   }
 
   void addTask() async {
@@ -61,9 +61,32 @@ class HomeController extends GetxController {
           userId: uid,
           name: taskController.value.text,
           isCompleted: false,
-          date: DateTime.now(),
+          date: DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+          ),
         ),
       );
+      taskController.value.text = "";
+      Get.back();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void deleteTask(Task task) async {
+    try {
+      await firestoreService.deleteTask(task);
+      Get.back();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void completeTask(Task task) async {
+    try {
+      await firestoreService.completeTask(task);
       Get.back();
     } catch (e) {
       print(e);
