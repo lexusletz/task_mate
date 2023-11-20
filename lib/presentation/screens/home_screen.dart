@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:task_mate/data/models/task.dart';
-import 'package:task_mate/presentation/theme/typography.dart';
 
+import '../../data/models/task.dart';
 import '../controllers/home_controller.dart';
+import '../theme/typography.dart';
 import '../widgets/HomeScreen/Fab.dart';
 import '../widgets/HomeScreen/header.dart';
 import '../widgets/HomeScreen/task_tile.dart';
@@ -62,13 +62,11 @@ class HomeScreen extends GetView<HomeController> {
 
                   return snapshot.data!.docs.isNotEmpty
                       ? Wrap(
-                          children: snapshot.data!.docs.take(3).map(
+                          children: snapshot.data!.docs.map(
                             (DocumentSnapshot document) {
                               Map<String, dynamic> data =
                                   document.data()! as Map<String, dynamic>;
-                              DateTime date =
-                                  (data["date"] as Timestamp).toDate();
-                              Task task = Task.fromJson(data, date: date);
+                              Task task = Task.fromJson(data);
                               return TaskTile(task: task);
                             },
                           ).toList(),
@@ -106,9 +104,7 @@ class HomeScreen extends GetView<HomeController> {
                               (DocumentSnapshot document) {
                                 Map<String, dynamic> data =
                                     document.data()! as Map<String, dynamic>;
-                                DateTime date =
-                                    (data["date"] as Timestamp).toDate();
-                                Task task = Task.fromJson(data, date: date);
+                                Task task = Task.fromJson(data);
                                 return TaskTile(task: task);
                               },
                             ).toList(),
