@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:task_mate/data/services/firestore_service.dart';
 
 import '../../data/services/auth_service.dart';
+import '../../data/services/firestore_service.dart';
+import '../../data/store/config.dart';
 import '../routes/routes_names.dart';
-
 
 class WelcomeController extends GetxController {
   static AuthService authService = Get.find();
@@ -16,6 +16,7 @@ class WelcomeController extends GetxController {
       final user = authService.getCurrentUser();
       await firestoreService.addUser(user);
       Get.offAllNamed(RoutesNames.HOME_ROUTE);
+      await ConfigStore.to.saveAlreadyOpen();
     } on PlatformException catch (e) {
       print(e); // TODO: Show error message
     } catch (e) {
