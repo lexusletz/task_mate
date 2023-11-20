@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import 'data/services/auth_service.dart';
 import 'data/services/firestore_service.dart';
+import 'data/services/storage_service.dart';
+import 'data/store/config.dart';
 import 'firebase_options.dart';
 import 'presentation/constants/colors.dart';
 import 'presentation/controllers/welcome_controller.dart';
@@ -13,9 +15,11 @@ import 'presentation/routes/routes_names.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Get.putAsync(() => StorageService().init());
   Get.lazyPut(() => WelcomeController());
   Get.lazyPut(() => AuthService());
   Get.lazyPut(() => FirestoreService());
+  Get.lazyPut(() => ConfigStore());
   runApp(const MainApp());
 }
 

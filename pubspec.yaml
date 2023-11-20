@@ -16,6 +16,7 @@ dependencies:
   google_fonts: ^6.1.0
   google_sign_in: ^6.1.6
   roundcheckbox: ^2.0.5
+  shared_preferences: ^2.2.2
   uuid: ^4.2.1
 
 dev_dependencies:
